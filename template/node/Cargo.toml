@@ -20,6 +20,7 @@ structopt = "0.3.8"
 jsonrpc-core = "15.0.0"
 jsonrpc-pubsub = "15.0.0"
 
+pallet-contracts = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sp-api = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sp-blockchain = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sc-rpc-api = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }

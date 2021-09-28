@@ -1,6 +1,6 @@
 use frontier_template_runtime::{
 	AccountId, AuraConfig, BalancesConfig, EVMConfig, EthereumConfig, GenesisConfig, GrandpaConfig,
-	Signature, SudoConfig, SystemConfig, WASM_BINARY,
+	Signature, SudoConfig, SystemConfig, WASM_BINARY, ContractsConfig,
 };
 use sc_service::ChainType;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
@@ -168,9 +168,9 @@ fn testnet_genesis(
 					// H160 address of Alice dev account
 					// Derived from SS58 (42 prefix) address
 					// SS58: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
-					// hex: 0xd43593c715fdd31c61141abd04a99fd6822c8558854ccde39a5684e7a56da27d
+					// hex: 0xd43593c715fdd31c61141abd04a99fd6822c8558 854ccde39a5684e7a56da27d
 					// Using the full hex key, truncating to the first 20 bytes (the first 40 hex chars)
-					H160::from_str("d43593c715fdd31c61141abd04a99fd6822c8558")
+					H160::from_str("2d495b4205bF0d5B1064ea1aA622b612D926fF96")
 						.expect("internal H160 is valid; qed"),
 					pallet_evm::GenesisAccount {
 						balance: U256::from_str("0xffffffffffffffffffffffffffffffff")
@@ -194,6 +194,9 @@ fn testnet_genesis(
 				);
 				map
 			},
+		},
+		pallet_contracts: ContractsConfig {
+			current_schedule: pallet_contracts::Schedule::default(),
 		},
 		pallet_ethereum: EthereumConfig {},
 		pallet_dynamic_fee: Default::default(),

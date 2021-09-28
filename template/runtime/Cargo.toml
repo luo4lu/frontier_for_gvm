@@ -20,6 +20,9 @@ frame-support = { version = "3.0.0-dev", default-features = false, git = "https:
 frame-system = { version = "3.0.0-dev", default-features = false, package = "frame-system", git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 frame-system-rpc-runtime-api = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 
+pallet-contracts = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
+pallet-contracts-primitives = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
+pallet-contracts-rpc-runtime-api = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 pallet-ethereum = { default-features = false, path = "../../frame/ethereum" }
 pallet-evm = { default-features = false, path = "../../frame/evm" }
 pallet-dynamic-fee = { default-features = false, path = "../../frame/dynamic-fee" }
@@ -85,6 +88,10 @@ std = [
 	"pallet-transaction-payment-rpc-runtime-api/std",
 	"pallet-transaction-payment/std",
 
+	"pallet-contracts/std",
+	"pallet-contracts-primitives/std",
+	"pallet-contracts-rpc-runtime-api/std",
+	
 	"sp-api/std",
 	"sp-block-builder/std",
 	"sp-consensus-aura/std",

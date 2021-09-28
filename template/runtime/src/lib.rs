@@ -16,10 +16,10 @@ use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_core::crypto::Public;
 use sp_core::{crypto::KeyTypeId, OpaqueMetadata, H160, H256, U256};
 use sp_runtime::traits::{
-	AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, NumberFor, Verify,
+	AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, NumberFor, Verify,Convert
 };
 use sp_runtime::{
-	create_runtime_str, generic, impl_opaque_keys,
+	create_runtime_str, generic, impl_opaque_keys, PerThing,
 	transaction_validity::{TransactionSource, TransactionValidity},
 	ApplyExtrinsicResult, MultiSignature,
 };
@@ -38,6 +38,13 @@ pub use frame_support::{
 		IdentityFee, Weight,
 	},
 	ConsensusEngineId, StorageValue,
+};
+use pallet_contracts::{
+	BalanceOf, ContractInfoOf, Schedule,
+	chain_extension::{
+		Environment, Ext, SysConfig, RetVal,
+		UncheckedFrom, InitState, 
+	},
 };
 pub use pallet_balances::Call as BalancesCall;
 use pallet_ethereum::{Call::transact, Transaction as EthereumTransaction};
@@ -116,6 +123,17 @@ pub const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
 pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
 pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
+
+//for add contract pallet
+pub const MILLICENTS: Balance = 1_000_000_000;
+pub const CENTS: Balance = 1_000 * MILLICENTS;
+pub const DOLLARS: Balance = 100 * CENTS;
+
+const fn deposit(items: u32, bytes: u32) -> Balance {
+	items as Balance * 15 * CENTS + (bytes as Balance) * 6 * CENTS
+}
+
+const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(10);
 
 /// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
@@ -278,7 +296,7 @@ impl<F: FindAuthor<u32>> FindAuthor<H160> for FindAuthorTruncated<F> {
 }
 
 parameter_types! {
-	pub const ChainId: u64 = 42;
+	pub const ChainId: u64 = 45;
 	pub BlockGasLimit: U256 = U256::from(u32::max_value());
 }
 
@@ -321,6 +339,50 @@ impl pallet_dynamic_fee::Config for Runtime {
 	type MinGasPriceBoundDivisor = BoundDivision;
 }
 
+parameter_types! {
+	pub const SignedClaimHandicap: u32 = 2;
+	pub const TombstoneDeposit: u64 = 16;
+	pub const DepositPerContract: u64 = 8 * DepositPerStorageByte::get();
+	pub const DepositPerStorageByte: u64 = 10_000;
+	pub const DepositPerStorageItem: u64 = 10_000;
+	pub RentFraction: Perbill = PerThing::from_rational(4u32, 10_000u32);
+	pub const SurchargeReward: u64 = 500_000;
+	pub const MaxDepth: u32 = 100;
+	pub const MaxValueSize: u32 = 16_384;
+	pub const DeletionQueueDepth: u32 = 1024;
+	pub const DeletionWeightLimit: Weight = 500_000_000_000;
+	pub const MaxCodeSize: u32 = 100 * 1024;
+}
+
+impl Convert<Weight, BalanceOf<Self>> for Runtime {
+	fn convert(w: Weight) -> BalanceOf<Self> {
+		w.into()
+	}
+}
+
+impl pallet_contracts::Config for Runtime {
+	type Time = Timestamp;
+	type Randomness = RandomnessCollectiveFlip;
+	type Currency = Balances;
+	type Event = Event;
+	type RentPayment = ();
+	type SignedClaimHandicap = SignedClaimHandicap;
+	type TombstoneDeposit = TombstoneDeposit;
+	type DepositPerContract = DepositPerContract;
+	type DepositPerStorageByte = DepositPerStorageByte;
+	type DepositPerStorageItem = DepositPerStorageItem;
+	type RentFraction = RentFraction;
+	type SurchargeReward = SurchargeReward;
+	type MaxDepth = MaxDepth;
+	type MaxValueSize = MaxValueSize;
+	type WeightPrice = Self;
+	type WeightInfo = ();
+	type ChainExtension = ();
+	type DeletionQueueDepth = DeletionQueueDepth;
+	type DeletionWeightLimit = DeletionWeightLimit;
+	type MaxCodeSize = MaxCodeSize;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
@@ -339,6 +401,7 @@ construct_runtime!(
 		Ethereum: pallet_ethereum::{Module, Call, Storage, Event, Config, ValidateUnsigned},
 		EVM: pallet_evm::{Module, Config, Call, Storage, Event<T>},
 		DynamicFee: pallet_dynamic_fee::{Module, Call, Storage, Config, Inherent},
+		Contracts: pallet_contracts::{Module, Call, Config<T>, Storage, Event<T>},
 	}
 );
 
