@@ -295,6 +295,16 @@ impl<F: FindAuthor<u32>> FindAuthor<H160> for FindAuthorTruncated<F> {
 	}
 }
 
+impl pallet_evm_precompile_call_vm::EvmChainExtension<Runtime> for Runtime {
+	fn call_vm4evm(
+		origin: Origin,
+		data: Vec<u8>,
+		target_gas: Option<u64>,
+	) -> Result<(Vec<u8>, u64), sp_runtime::DispatchError> {
+		GvmBridge::call_wasm4evm(origin, data, target_gas)
+	}
+}
+
 parameter_types! {
 	pub const ChainId: u64 = 45;
 	pub BlockGasLimit: U256 = U256::from(u32::max_value());
@@ -315,6 +325,7 @@ impl pallet_evm::Config for Runtime {
 		pallet_evm_precompile_simple::Sha256,
 		pallet_evm_precompile_simple::Ripemd160,
 		pallet_evm_precompile_simple::Identity,
+		pallet_evm_precompile_call_vm::CallVm<Self>,
 		pallet_evm_precompile_modexp::Modexp,
 		pallet_evm_precompile_simple::ECRecoverPublicKey,
 		pallet_evm_precompile_sha3fips::Sha3FIPS256,
@@ -337,6 +348,21 @@ frame_support::parameter_types! {
 
 impl pallet_dynamic_fee::Config for Runtime {
 	type MinGasPriceBoundDivisor = BoundDivision;
+}
+
+impl pallet_contracts::chain_extension::ChainExtension<Runtime> for Runtime {
+	fn call<E>(fun_id: u32, env: Environment<E, InitState>) -> Result<RetVal, sp_runtime::DispatchError>
+	where
+		E: Ext<T = Runtime>,
+		<E::T as SysConfig>::AccountId: UncheckedFrom<<E::T as SysConfig>::Hash> + AsRef<[u8]>,
+	{
+		match fun_id {
+			5 => GvmBridge::call_evm4wasm::<E>(env),
+			_ => Err(sp_runtime::DispatchError::from(
+				"Passed unknown func_id to chain extension",
+			)),
+		}
+	}
 }
 
 parameter_types! {
@@ -377,10 +403,22 @@ impl pallet_contracts::Config for Runtime {
 	type MaxValueSize = MaxValueSize;
 	type WeightPrice = Self;
 	type WeightInfo = ();
-	type ChainExtension = ();
+	type ChainExtension = Self;
 	type DeletionQueueDepth = DeletionQueueDepth;
 	type DeletionWeightLimit = DeletionWeightLimit;
 	type MaxCodeSize = MaxCodeSize;
+}
+
+parameter_types! {
+	pub const Enable2EVM: bool = true;
+	pub const Enable2WasmC: bool = true;
+}
+impl pallet_vm_bridge::Config for Runtime {
+	type Currency = Balances;
+	type Call = Call;
+	type Event = Event;
+	type Enable2EVM = Enable2EVM;
+	type Enable2WasmC = Enable2WasmC;
 }
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
@@ -402,6 +440,7 @@ construct_runtime!(
 		EVM: pallet_evm::{Module, Config, Call, Storage, Event<T>},
 		DynamicFee: pallet_dynamic_fee::{Module, Call, Storage, Config, Inherent},
 		Contracts: pallet_contracts::{Module, Call, Config<T>, Storage, Event<T>},
+		GvmBridge: pallet_vm_bridge::{Module, Call, Storage, Event<T>},
 	}
 );
 
@@ -656,6 +695,27 @@ impl_runtime_apis! {
 				_ => None
 			}).collect::<Vec<EthereumTransaction>>()
 		}
+	}
+
+	impl pallet_contracts_rpc_runtime_api::ContractsApi<Block, AccountId, Balance, BlockNumber> for Runtime {
+		fn call(
+            origin: AccountId,
+            dest: AccountId,
+            value: Balance,
+            gas_limit: u64,
+            input_data: Vec<u8>,
+        ) -> pallet_contracts_primitives::ContractExecResult {
+            Contracts::bare_call(origin, dest, value, gas_limit, input_data)
+        }
+        fn get_storage(
+            address: AccountId,
+            key: [u8; 32]
+        ) -> pallet_contracts_primitives::GetStorageResult {
+            Contracts::get_storage(address, key)
+        }
+        fn rent_projection( address: AccountId) -> pallet_contracts_primitives::RentProjectionResult<BlockNumber> {
+            Contracts::rent_projection(address)
+        }
 	}
 
 	impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentApi<

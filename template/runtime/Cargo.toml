@@ -20,6 +20,9 @@ frame-support = { version = "3.0.0-dev", default-features = false, git = "https:
 frame-system = { version = "3.0.0-dev", default-features = false, package = "frame-system", git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 frame-system-rpc-runtime-api = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 
+pallet-evm-precompile-call-vm = {default-features = false, version = '0.1.0', path = "../../../GVM-Bridge/frame/evm-precompile/call-vm"}
+pallet-vm-bridge = {default-features = false, version = '0.1.0', path = "../../../GVM-Bridge/frame/vm-bridge"}
+
 pallet-contracts = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 pallet-contracts-primitives = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 pallet-contracts-rpc-runtime-api = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
