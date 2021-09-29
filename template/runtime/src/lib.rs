@@ -369,10 +369,10 @@ parameter_types! {
 	pub const SignedClaimHandicap: u32 = 2;
 	pub const TombstoneDeposit: u64 = 16;
 	pub const DepositPerContract: u64 = 8 * DepositPerStorageByte::get();
-	pub const DepositPerStorageByte: u64 = 10_000;
-	pub const DepositPerStorageItem: u64 = 10_000;
+	pub const DepositPerStorageByte: u64 = 10_000_000;
+	pub const DepositPerStorageItem: u64 = 10_000_000;
 	pub RentFraction: Perbill = PerThing::from_rational(4u32, 10_000u32);
-	pub const SurchargeReward: u64 = 500_000;
+	pub const SurchargeReward: u64 = 50_000_000;
 	pub const MaxDepth: u32 = 100;
 	pub const MaxValueSize: u32 = 16_384;
 	pub const DeletionQueueDepth: u32 = 1024;

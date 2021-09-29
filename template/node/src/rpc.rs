@@ -4,7 +4,8 @@ use std::sync::Arc;
 
 use fc_rpc::{OverrideHandle, RuntimeApiStorageOverride, SchemaV1Override, StorageOverride};
 use fc_rpc_core::types::{FilterPool, PendingTransactions};
-use frontier_template_runtime::{opaque::Block, AccountId, Balance, Hash, Index};
+use frontier_template_runtime::{opaque::Block, AccountId, Balance, Hash, Index, BlockNumber};
+use pallet_contracts_rpc::{Contracts, ContractsApi};
 use jsonrpc_pubsub::manager::SubscriptionManager;
 use pallet_ethereum::EthereumStorageSchema;
 use sc_client_api::{
@@ -77,6 +78,7 @@ where
 	C::Api: BlockBuilder<Block>,
 	C::Api: pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi<Block, Balance>,
 	C::Api: fp_rpc::EthereumRuntimeRPCApi<Block>,
+	C::Api: pallet_contracts_rpc::ContractsRuntimeApi<Block, AccountId, Balance, BlockNumber>,
 	P: TransactionPool<Block = Block> + 'static,
 {
 	use fc_rpc::{
@@ -170,6 +172,8 @@ where
 		),
 		overrides,
 	)));
+
+	io.extend_with(ContractsApi::to_delegate(Contracts::new(client.clone())));
 
 	match command_sink {
 		Some(command_sink) => {

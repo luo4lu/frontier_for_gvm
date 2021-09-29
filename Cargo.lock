@@ -1733,6 +1733,7 @@ dependencies = [
  "jsonrpc-pubsub 15.1.0",
  "log",
  "pallet-contracts",
+ "pallet-contracts-rpc",
  "pallet-dynamic-fee",
  "pallet-ethereum",
  "pallet-evm",
@@ -4068,6 +4069,25 @@ dependencies = [
 ]
 
 [[package]]
+name = "pallet-contracts-rpc"
+version = "3.0.0"
+source = "git+https://github.com/paritytech/substrate?branch=frontier#39b31316815ec6d709e7ad7c1a31c436d14c53e6"
+dependencies = [
+ "jsonrpc-core 15.1.0",
+ "jsonrpc-core-client 15.1.0",
+ "jsonrpc-derive 15.1.0",
+ "pallet-contracts-primitives",
+ "pallet-contracts-rpc-runtime-api",
+ "parity-scale-codec 2.0.1",
+ "serde",
+ "sp-api",
+ "sp-blockchain",
+ "sp-core",
+ "sp-rpc",
+ "sp-runtime",
+]
+
+[[package]]
 name = "pallet-contracts-rpc-runtime-api"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=frontier#39b31316815ec6d709e7ad7c1a31c436d14c53e6"
@@ -4181,6 +4201,7 @@ dependencies = [
  "fp-evm",
  "frame-support",
  "frame-system",
+ "log",
  "pallet-contracts",
  "pallet-evm",
  "pallet-vm-bridge",
