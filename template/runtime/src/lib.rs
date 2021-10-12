@@ -40,7 +40,7 @@ pub use frame_support::{
 	ConsensusEngineId, StorageValue,
 };
 use pallet_contracts::{
-	BalanceOf, ContractInfoOf, Schedule,
+	BalanceOf,
 	chain_extension::{
 		Environment, Ext, SysConfig, RetVal,
 		UncheckedFrom, InitState, 
@@ -124,7 +124,7 @@ pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
 pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
 
-//for add contract pallet
+/*for add contract pallet
 pub const MILLICENTS: Balance = 1_000_000_000;
 pub const CENTS: Balance = 1_000 * MILLICENTS;
 pub const DOLLARS: Balance = 100 * CENTS;
@@ -133,7 +133,7 @@ const fn deposit(items: u32, bytes: u32) -> Balance {
 	items as Balance * 15 * CENTS + (bytes as Balance) * 6 * CENTS
 }
 
-const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(10);
+const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(10);*/
 
 /// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]

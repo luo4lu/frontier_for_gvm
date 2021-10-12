@@ -42,9 +42,9 @@ sc-consensus-manual-seal = { git = "https://github.com/paritytech/substrate.git"
 sp-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sc-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sp-timestamp = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
-pallet-evm = { path = "../../frame/evm" }
-pallet-ethereum = { path = "../../frame/ethereum" }
-pallet-dynamic-fee = { path = "../../frame/dynamic-fee" }
+pallet-evm = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+pallet-ethereum = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+pallet-dynamic-fee = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
 sc-finality-grandpa = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sp-finality-grandpa = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sc-client-api = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
@@ -55,14 +55,14 @@ sc-telemetry = { git = "https://github.com/paritytech/substrate.git", branch = "
 frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "frontier" }
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "frontier" }
 
-fc-consensus = { path = "../../client/consensus" }
-fp-consensus = { path = "../../primitives/consensus" }
+fc-consensus = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fp-consensus = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
 frontier-template-runtime = { path = "../runtime", default-features = false, features = ["std"] }
-fc-rpc = { path = "../../client/rpc" }
-fp-rpc = { path = "../../primitives/rpc" }
-fc-rpc-core = { path = "../../client/rpc-core" }
-fc-db = { path = "../../client/db" }
-fc-mapping-sync = { path = "../../client/mapping-sync" }
+fc-rpc = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fp-rpc = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fc-rpc-core = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fc-db = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fc-mapping-sync = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
 
 [build-dependencies]
 substrate-build-script-utils = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
