@@ -48,7 +48,7 @@ use pallet_contracts::{
 };
 pub use pallet_balances::Call as BalancesCall;
 use pallet_ethereum::{Call::transact, Transaction as EthereumTransaction};
-use pallet_evm::{Account as EVMAccount, EnsureAddressTruncated, HashedAddressMapping, Runner};
+use pallet_evm::{FeeCalculator, Account as EVMAccount, EnsureAddressTruncated, HashedAddressMapping, Runner};
 pub use pallet_timestamp::Call as TimestampCall;
 use pallet_transaction_payment::CurrencyAdapter;
 #[cfg(any(feature = "std", test))]
@@ -295,6 +295,14 @@ impl<F: FindAuthor<u32>> FindAuthor<H160> for FindAuthorTruncated<F> {
 	}
 }
 
+/// Fixed gas price of `0`.
+pub struct FixedGasPrice;
+impl FeeCalculator for FixedGasPrice {
+        fn min_gas_price() -> U256 {
+                1.into()
+        }
+}
+
 impl pallet_evm_precompile_call_vm::EvmChainExtension<Runtime> for Runtime {
 	fn call_vm4evm(
 		origin: Origin,
@@ -311,7 +319,7 @@ parameter_types! {
 }
 
 impl pallet_evm::Config for Runtime {
-	type FeeCalculator = pallet_dynamic_fee::Module<Self>;
+	type FeeCalculator = FixedGasPrice;//pallet_dynamic_fee::Module<Self>;
 	type GasWeightMapping = ();
 	type BlockHashMapping = pallet_ethereum::EthereumBlockHashMapping;
 	type CallOrigin = EnsureAddressTruncated;
