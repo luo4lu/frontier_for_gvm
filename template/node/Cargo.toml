@@ -42,9 +42,9 @@ sc-consensus-manual-seal = { git = "https://github.com/paritytech/substrate.git"
 sp-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sc-consensus = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sp-timestamp = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
-pallet-evm = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-pallet-ethereum = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-pallet-dynamic-fee = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+pallet-evm = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+pallet-ethereum = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+pallet-dynamic-fee = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
 sc-finality-grandpa = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sp-finality-grandpa = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sc-client-api = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
@@ -55,14 +55,14 @@ sc-telemetry = { git = "https://github.com/paritytech/substrate.git", branch = "
 frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "frontier" }
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "frontier" }
 
-fc-consensus = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-fp-consensus = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fc-consensus = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+fp-consensus = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
 frontier-template-runtime = { path = "../runtime", default-features = false, features = ["std"] }
-fc-rpc = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-fp-rpc = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-fc-rpc-core = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-fc-db = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-fc-mapping-sync = { git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fc-rpc = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+fp-rpc = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+fc-rpc-core = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+fc-db = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+fc-mapping-sync = { git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
 
 [build-dependencies]
 substrate-build-script-utils = { git = "https://github.com/paritytech/substrate.git", branch = "frontier" }

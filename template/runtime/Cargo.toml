@@ -20,18 +20,18 @@ frame-support = { version = "3.0.0-dev", default-features = false, git = "https:
 frame-system = { version = "3.0.0-dev", default-features = false, package = "frame-system", git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 frame-system-rpc-runtime-api = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 
-pallet-evm-precompile-call-vm = {default-features = false, version = '0.1.0', git = "https://github.com/luo4lu/GVM_bridge.git"}
-pallet-vm-bridge = {default-features = false, version = '0.1.0', git = "https://github.com/luo4lu/GVM_bridge.git"}
+pallet-evm-precompile-call-vm = {default-features = false, version = '0.1.0', git = "https://github.com/luo4lu/GVM_bridge.git", branch = "main"}
+pallet-vm-bridge = {default-features = false, version = '0.1.0', git = "https://github.com/luo4lu/GVM_bridge.git", branch = "main"}
 
 pallet-contracts = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 pallet-contracts-primitives = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 pallet-contracts-rpc-runtime-api = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
-pallet-ethereum = { version = "3.0.0", default-features = false, git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-pallet-evm = { version = "5.0.0", default-features = false, git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-pallet-dynamic-fee = { default-features = false, git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-pallet-evm-precompile-simple = { default-features = false, git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-pallet-evm-precompile-sha3fips = { default-features = false, git = "https://github.com/luo4lu/frontier_for_gvm.git" }
-pallet-evm-precompile-modexp = { default-features = false, git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+pallet-ethereum = { version = "3.0.0", default-features = false, git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+pallet-evm = {default-features = false, git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+pallet-dynamic-fee = { default-features = false, git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+pallet-evm-precompile-simple = { default-features = false, git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+pallet-evm-precompile-sha3fips = { default-features = false, git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
+pallet-evm-precompile-modexp = { default-features = false, git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
 pallet-aura = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 pallet-balances = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 pallet-grandpa = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
@@ -54,7 +54,7 @@ sp-std = { version = "3.0.0-dev", default-features = false, git = "https://githu
 sp-transaction-pool = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 sp-version = { version = "3.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "frontier" }
 
-fp-rpc = { default-features = false, git = "https://github.com/luo4lu/frontier_for_gvm.git" }
+fp-rpc = { default-features = false, git = "https://github.com/paritytech/frontier.git", tag = "pallet-evm-v5.0.0" }
 
 # benchmarking dependencies
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "frontier", optional = true }
@@ -90,6 +90,9 @@ std = [
 	"pallet-timestamp/std",
 	"pallet-transaction-payment-rpc-runtime-api/std",
 	"pallet-transaction-payment/std",
+
+	"pallet-vm-bridge/std",
+	"pallet-evm-precompile-call-vm/std",
 
 	"pallet-contracts/std",
 	"pallet-contracts-primitives/std",
